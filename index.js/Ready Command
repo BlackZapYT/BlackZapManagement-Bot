@@ -1,0 +1,8 @@
+client.on("ready", () => {
+  let embed = new Discord.MessageEmbed()
+  .setTitle(`Bot Online`) 
+  .setThumbnail(`https://c.tenor.com/28DFFVtvNqYAAAAC/loading.gif`)
+  .setDescription(`Continue Your Commands!`)
+  .setTimestamp() 
+client.channels.cache.get('//bot online channel').send( { embeds : [ embed ] } )
+})             
