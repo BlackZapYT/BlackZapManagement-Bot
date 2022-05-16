@@ -1,0 +1,39 @@
+module.exports = {
+  name: "ticket",
+  description: "Create a ticket",
+  async run(client, message, args) {
+    const Discord = require("discord.js")
+    
+    const embed = new Discord.MessageEmbed()
+      .setTitle(`Welcome ${message.author.username}`)
+      .setColor("#12c4ff")     
+      .setDescription(`Thank for Making a Ticket! Please Type The Reason for the Creation of the Ticket!`)
+      .setFooter(`Note: Creating a ticket without any reason may lead to a mute/kick.`)
+      .setTimestamp();
+
+
+    const author = message.author.id;
+    const everyone = message.guild.roles.cache.get(message.guild.roles.everyone.id);
+    const channel = await message.guild.channels.create(`ticket-${message.author.username}`, { type: 'text', reason: `Modmail Created Ticket.` });
+    
+    channel.setTopic(`Ticket for ${message.author.username}`)
+
+
+    channel.permissionOverwrites.edit(author, {
+      VIEW_CHANNEL: true,
+      SEND_MESSAGES: true,
+      READ_MESSAGE_HISTORY: true
+    });
+    channel.permissionOverwrites.edit(everyone, {
+      VIEW_CHANNEL: false
+    });
+    channel.permissionOverwrites.edit(client.user.id, {
+      VIEW_CHANNEL: true,
+      SEND_MESSAGES: true,
+      READ_MESSAGE_HISTORY: true,
+      MANAGE_MESSAGES: true
+    })
+    message.channel.send(`Your ticket has been created in <#${channel.id}>`)
+    client.channels.cache.get(channel.id).send({ embeds: [embed] })
+  }
+  }
